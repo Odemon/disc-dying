@@ -30,16 +30,28 @@ public class Disc extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("paintComponent and alpha is "+alpha);
+
+        // Cast Graphics to Graphics2D because we want thicker outline
+        Graphics2D g2d = (Graphics2D) g;
+
+        g2d.setColor(Color.BLACK);
+        // Set the stroke (outline)
+        Stroke customStroke = new BasicStroke(2.0f);
+        g2d.setStroke(customStroke);
 
         // Do this because different plastic have different opacity
         Color transColor = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
         // Draw a colored circle representing the disc
-        g.setColor(transColor);
+        g2d.setColor(transColor);
         int diameter = Math.min(getWidth() -50, getHeight() -50);
-        g.fillOval(0,0, diameter, diameter);
-        g.setColor(Color.black);
+        g2d.fillOval(0,0, diameter, diameter);
+        g2d.setColor(Color.black);
         // Draw plastic type to disc center
-        g.drawString(plasticType.toString(), diameter / 2, diameter / 2);
+        g2d.drawString(plasticType.toString(), diameter / 2, diameter / 2);
+
+
+        g2d.setColor(Color.BLACK);
+        // Draw the stroke (outline)
+        g2d.drawOval(0,0, diameter, diameter);
     }
 }
