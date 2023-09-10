@@ -1,6 +1,7 @@
 package dev.otso;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +16,9 @@ public class Main extends JFrame {
 
         // Creeate menu
         createMenu();
+
+        // Create other components
+        createComponents();
 
     }
 
@@ -36,6 +40,39 @@ public class Main extends JFrame {
 
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
+    }
+
+    private void createComponents() {
+        // Make panel to hold components
+        JPanel componentPanel = new JPanel();
+        this.add(componentPanel);
+        Disc test = new Disc(Color.GREEN, PlasticType.STAR);
+        componentPanel.setLayout(new BorderLayout());
+        componentPanel.add(test, BorderLayout.CENTER);
+
+        // Slider for choosing alpha value for disc
+        JSlider alphaSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 128);
+        alphaSlider.setMajorTickSpacing(50);
+        alphaSlider.setMinorTickSpacing(10);
+        alphaSlider.setPaintTicks(true);
+        alphaSlider.setPaintLabels(true);
+
+        alphaSlider.addChangeListener(e -> {
+            System.out.println("Slider changed");
+            int alpha = alphaSlider.getValue();
+            // Create or update your color with the new alpha value
+            test.setAlpha(alphaSlider.getValue());
+            test.repaint();
+            // Update the color display or any other component using the color
+
+        });
+
+        componentPanel.add(alphaSlider, BorderLayout.EAST);
+
+
+
+
+        setContentPane(componentPanel);
     }
     public static void main(String[] args) {
 
