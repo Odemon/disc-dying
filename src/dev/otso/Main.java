@@ -46,9 +46,9 @@ public class Main extends JFrame {
         // Make panel to hold components
         JPanel componentPanel = new JPanel();
         this.add(componentPanel);
-        Disc test = new Disc(Color.GREEN, PlasticType.STAR);
+        Disc testDisc = new Disc(Color.GREEN, PlasticType.STAR);
         componentPanel.setLayout(new BorderLayout());
-        componentPanel.add(test, BorderLayout.CENTER);
+        componentPanel.add(testDisc, BorderLayout.CENTER);
 
         // Slider for choosing alpha value for disc
         JSlider alphaSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 128);
@@ -61,14 +61,24 @@ public class Main extends JFrame {
             System.out.println("Slider changed");
             int alpha = alphaSlider.getValue();
             // Create or update your color with the new alpha value
-            test.setAlpha(alphaSlider.getValue());
-            test.repaint();
+            testDisc.setAlpha(alphaSlider.getValue());
+            testDisc.repaint();
             // Update the color display or any other component using the color
 
         });
 
         componentPanel.add(alphaSlider, BorderLayout.EAST);
 
+        // Add button for choosing disc color
+        JButton discColorButton = new JButton("Choose disc color");
+        discColorButton.addActionListener(e -> {
+            System.out.println("Color button pushed");
+            Color initalColor = testDisc.getColor();
+            Color newColor = JColorChooser.showDialog(this, "Select disc color", initalColor);
+            testDisc.setColor(newColor);
+            testDisc.repaint();
+        });
+        componentPanel.add(discColorButton, BorderLayout.SOUTH);
 
 
 

@@ -9,6 +9,14 @@ public class Disc extends JPanel {
 
     private int alpha;
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
     public void setAlpha(int a) {
         if (a < 0) {
             alpha = 0;
