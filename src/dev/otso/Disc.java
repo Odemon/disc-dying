@@ -19,7 +19,7 @@ public class Disc extends JPanel {
         this.color = c;
         this.plasticType = p;
         this.alpha = 128;
-        this.rimSize = 20 Du;
+        this.rimSize = 20;
     }
 
     public void setColor(Color color) {
