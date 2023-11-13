@@ -4,10 +4,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Disc extends JPanel {
+    // Color of the disc
     private Color color;
     private PlasticType plasticType;
 
+    // How seethrough the disc is
     private int alpha;
+
+    // How long is the rim of the disc
+    private int rimSize;
+
+    public Disc(Color c, PlasticType p) {
+        System.out.println("Constructor called");
+        this.color = c;
+        this.plasticType = p;
+        this.alpha = 128;
+        this.rimSize = 20 Du;
+    }
 
     public void setColor(Color color) {
         this.color = color;
@@ -28,11 +41,12 @@ public class Disc extends JPanel {
         repaint();
     }
 
-    public Disc(Color c, PlasticType p) {
-        System.out.println("Constructor called");
-        this.color = c;
-        this.plasticType = p;
-        this.alpha = 128;
+    public int getRimSize() {
+        return rimSize;
+    }
+
+    public void setRimSize(int rimSize) {
+        this.rimSize = rimSize;
     }
 
     @Override
@@ -52,6 +66,7 @@ public class Disc extends JPanel {
         // Draw a colored circle representing the disc
         g2d.setColor(transColor);
         int diameter = Math.min(getWidth() -50, getHeight() -50);
+        // Draw the filled circle
         g2d.fillOval(0,0, diameter, diameter);
         g2d.setColor(Color.black);
         // Draw plastic type to disc center
@@ -61,5 +76,16 @@ public class Disc extends JPanel {
         g2d.setColor(Color.BLACK);
         // Draw the stroke (outline)
         g2d.drawOval(0,0, diameter, diameter);
+
+        // Draw the rim of the disc
+        int innerDiameter = diameter - 2 * rimSize;
+        int innerX = rimSize;
+        int innerY = rimSize;
+
+        // Draw the inner circle
+        g2d.setColor(Color.BLACK);
+        g2d.drawOval(innerX, innerY, innerDiameter, innerDiameter);
+
+
     }
 }
