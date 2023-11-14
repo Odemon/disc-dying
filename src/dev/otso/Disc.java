@@ -6,6 +6,8 @@ import java.awt.*;
 public class Disc extends JPanel {
     // Color of the disc
     private Color color;
+
+    private Color textColor;
     private PlasticType plasticType;
 
     // How seethrough the disc is
@@ -20,6 +22,7 @@ public class Disc extends JPanel {
         this.plasticType = p;
         this.alpha = 128;
         this.rimSize = 20;
+        this.textColor = Color.RED;
     }
 
     public void setColor(Color color) {
@@ -49,6 +52,14 @@ public class Disc extends JPanel {
         this.rimSize = rimSize;
     }
 
+    public Color getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(Color textColor) {
+        this.textColor = textColor;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -68,8 +79,8 @@ public class Disc extends JPanel {
         int diameter = Math.min(getWidth() -50, getHeight() -50);
         // Draw the filled circle
         g2d.fillOval(0,0, diameter, diameter);
-        g2d.setColor(Color.black);
-        // Draw plastic type to disc center
+        g2d.setColor(textColor);
+        // Draw text to the center
         g2d.drawString(plasticType.toString(), diameter / 2, diameter / 2);
 
 

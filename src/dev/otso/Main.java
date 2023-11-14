@@ -58,7 +58,6 @@ public class Main extends JFrame {
         alphaSlider.setPaintLabels(true);
 
         alphaSlider.addChangeListener(e -> {
-            System.out.println("Slider changed");
             int alpha = alphaSlider.getValue();
             // Create or update your color with the new alpha value
             testDisc.setAlpha(alphaSlider.getValue());
@@ -69,6 +68,8 @@ public class Main extends JFrame {
 
         componentPanel.add(alphaSlider, BorderLayout.EAST);
 
+        // Panel for color buttons
+        JPanel colorPanel = new JPanel();
         // Add button for choosing disc color
         JButton discColorButton = new JButton("Choose disc color");
         discColorButton.addActionListener(e -> {
@@ -78,8 +79,20 @@ public class Main extends JFrame {
             testDisc.setColor(newColor);
             testDisc.repaint();
         });
-        componentPanel.add(discColorButton, BorderLayout.SOUTH);
+        colorPanel.add(discColorButton);
 
+        // Add button for choosing text color
+        JButton textColorButton = new JButton("Choose disc text color");
+        textColorButton.addActionListener(e -> {
+            System.out.println("Disc Color button pushed");
+            Color initalColor = testDisc.getTextColor();
+            Color newColor = JColorChooser.showDialog(this, "Select text color", initalColor);
+            testDisc.setTextColor(newColor);
+            testDisc.repaint();
+        });
+        colorPanel.add(textColorButton);
+
+        componentPanel.add(colorPanel, BorderLayout.SOUTH);
 
 
         setContentPane(componentPanel);
