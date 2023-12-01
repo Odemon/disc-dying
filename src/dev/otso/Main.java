@@ -1,6 +1,8 @@
 package dev.otso;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,7 +48,7 @@ public class Main extends JFrame {
         // Make panel to hold components
         JPanel componentPanel = new JPanel();
         this.add(componentPanel);
-        Disc testDisc = new Disc(Color.GREEN, PlasticType.STAR);
+        Disc testDisc = new Disc(Color.GREEN, "Text");
         componentPanel.setLayout(new BorderLayout());
         componentPanel.add(testDisc, BorderLayout.CENTER);
 
@@ -92,8 +94,35 @@ public class Main extends JFrame {
         });
         colorPanel.add(textColorButton);
 
-        componentPanel.add(colorPanel, BorderLayout.SOUTH);
+        // Add text field for Disc text
+        JTextField discTextField = new JTextField(testDisc.getText(),20);
 
+        // Add DocumentListener to track text changes
+        discTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                changeDiscText();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                changeDiscText();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                changeDiscText();
+            }
+
+            private void changeDiscText() {
+                testDisc.setText(discTextField.getText());
+                testDisc.repaint();
+            }
+        });
+        colorPanel.add(discTextField);
+
+
+        componentPanel.add(colorPanel, BorderLayout.SOUTH);
 
         setContentPane(componentPanel);
     }

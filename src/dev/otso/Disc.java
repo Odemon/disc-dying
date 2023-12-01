@@ -8,7 +8,7 @@ public class Disc extends JPanel {
     private Color color;
 
     private Color textColor;
-    private PlasticType plasticType;
+    private String text;
 
     // How seethrough the disc is
     private int alpha;
@@ -16,13 +16,21 @@ public class Disc extends JPanel {
     // How long is the rim of the disc
     private int rimSize;
 
-    public Disc(Color c, PlasticType p) {
+    public Disc(Color c, String text) {
         System.out.println("Constructor called");
         this.color = c;
-        this.plasticType = p;
+        this.text = text;
         this.alpha = 128;
         this.rimSize = 20;
         this.textColor = Color.RED;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public void setColor(Color color) {
@@ -81,7 +89,7 @@ public class Disc extends JPanel {
         g2d.fillOval(0,0, diameter, diameter);
         g2d.setColor(textColor);
         // Draw text to the center
-        g2d.drawString(plasticType.toString(), diameter / 2, diameter / 2);
+        g2d.drawString(text, diameter / 2, diameter / 2);
 
 
         g2d.setColor(Color.BLACK);
