@@ -1,6 +1,8 @@
 package dev.otso;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
@@ -120,6 +122,44 @@ public class Main extends JFrame {
             }
         });
         colorPanel.add(discTextField);
+
+        // Panel for font size selection
+        JPanel fontSizePanel = new JPanel();
+
+        // Add JSpinner for choosing text size
+        SpinnerNumberModel fontSizeModel = new SpinnerNumberModel(30, 1, 100, 1); // Initial value, minimum, maximum, step
+        JSpinner fontSizeSpinner = new JSpinner(fontSizeModel);
+        fontSizeSpinner.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                int newSize = (int) fontSizeSpinner.getValue();
+                testDisc.setFontSize(newSize);
+                testDisc.repaint();
+            }
+        });
+
+        fontSizePanel.add(new JLabel("Text Size:"));
+        fontSizePanel.add(fontSizeSpinner);
+
+        componentPanel.add(fontSizePanel, BorderLayout.NORTH);
+
+        // Add combobox for choosing font
+        JPanel fontPanel = new JPanel();
+
+        // Add JComboBox for font selection
+        String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        JComboBox<String> fontComboBox = new JComboBox<>(fontNames);
+        fontComboBox.addActionListener(e -> {
+            String selectedFontName = (String) fontComboBox.getSelectedItem();
+            Font selectedFont = new Font(selectedFontName, Font.PLAIN, testDisc.getFontSize()); // You can adjust the size as needed
+            testDisc.setTextFont(selectedFont);
+            testDisc.repaint();
+        });
+        fontPanel.add(new JLabel("Select Text Font:"));
+        fontPanel.add(fontComboBox);
+        fontPanel.add(fontSizePanel);
+
+        componentPanel.add(fontPanel, BorderLayout.NORTH);
 
 
         componentPanel.add(colorPanel, BorderLayout.SOUTH);

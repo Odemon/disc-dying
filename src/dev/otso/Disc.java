@@ -10,6 +10,10 @@ public class Disc extends JPanel {
     private Color textColor;
     private String text;
 
+    // Disc text font
+    private Font textFont;
+    private int fontSize;
+
     // How seethrough the disc is
     private int alpha;
 
@@ -23,6 +27,8 @@ public class Disc extends JPanel {
         this.alpha = 128;
         this.rimSize = 20;
         this.textColor = Color.RED;
+        this.fontSize = 30;
+        this.textFont = new Font("Arial", Font.PLAIN, fontSize);
     }
 
     public String getText() {
@@ -67,6 +73,25 @@ public class Disc extends JPanel {
     public void setTextColor(Color textColor) {
         this.textColor = textColor;
     }
+    public Font getTextFont() {
+        return textFont;
+    }
+
+    public void setTextFont(Font textFont) {
+        System.out.println("Setting test font to " + textFont);
+        this.textFont = textFont.deriveFont((float) fontSize);
+        repaint();
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        System.out.println("Setting font size to " + fontSize);
+        this.fontSize = fontSize;
+        setTextFont(textFont);
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -87,10 +112,16 @@ public class Disc extends JPanel {
         int diameter = Math.min(getWidth() -50, getHeight() -50);
         // Draw the filled circle
         g2d.fillOval(0,0, diameter, diameter);
-        g2d.setColor(textColor);
-        // Draw text to the center
-        g2d.drawString(text, diameter / 2, diameter / 2);
 
+        // Use the specified font when drawing text
+        g2d.setFont(textFont);
+        FontMetrics metrics = g2d.getFontMetrics(textFont);
+        int textWidth = metrics.stringWidth(text);
+        int textHeight = metrics.getHeight();
+
+        g2d.setColor(textColor);
+        // Draw text to center
+        g2d.drawString(text, (diameter - textWidth) / 2, (diameter + textHeight) / 2);
 
         g2d.setColor(Color.BLACK);
         // Draw the stroke (outline)
@@ -107,4 +138,5 @@ public class Disc extends JPanel {
 
 
     }
+
 }
