@@ -2,6 +2,10 @@ package dev.otso;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Disc extends JPanel {
     // Color of the disc
@@ -20,6 +24,9 @@ public class Disc extends JPanel {
     // How long is the rim of the disc
     private int rimSize;
 
+    // Store the drawing on the disc
+    private List<Point> drawnPoints = new ArrayList<>();
+
     public Disc(Color c, String text) {
         System.out.println("Constructor called");
         this.color = c;
@@ -29,6 +36,21 @@ public class Disc extends JPanel {
         this.textColor = Color.RED;
         this.fontSize = 30;
         this.textFont = new Font("Arial", Font.PLAIN, fontSize);
+
+        // Add mouse listener for drawing
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                drawOnDisc(e.getX(), e.getY());
+            }
+        });
+
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                drawOnDisc(e.getX(), e.getY());
+            }
+        });
     }
 
     public String getText() {
@@ -93,6 +115,15 @@ public class Disc extends JPanel {
         setTextFont(textFont);
     }
 
+    // Method to draw on the disc
+    private void drawOnDisc(int x, int y) {
+        Graphics2D g2d = (Graphics2D) getGraphics();
+        g2d.setColor(textColor);
+        g2d.fillOval(x - 5, y - 5, 10, 10); // Adjust the size as needed
+        drawnPoints.add(new Point(x,y));
+        g2d.dispose();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -135,6 +166,12 @@ public class Disc extends JPanel {
         // Draw the inner circle
         g2d.setColor(Color.BLACK);
         g2d.drawOval(innerX, innerY, innerDiameter, innerDiameter);
+
+        // Redraw the drawings
+        g2d.setColor(textColor);
+        for (Point point : drawnPoints) {
+            g2d.fillOval(point.x - 5, point.y - 5, 10, 10);
+        }
 
 
     }
