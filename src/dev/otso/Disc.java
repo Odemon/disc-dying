@@ -26,6 +26,16 @@ public class Disc extends JPanel {
 
     // Store the drawing on the disc
     private List<Point> drawnPoints = new ArrayList<>();
+    // Store the colors of drawed points
+    private List<Color> drawPointColors = new ArrayList<>();
+    // Current drawing colors
+    /*
+        missing setters and getters
+        draw point with drawing color
+        store the color of point
+        update the repaint
+    */
+
 
     public Disc(Color c, String text) {
         System.out.println("Constructor called");
@@ -115,12 +125,29 @@ public class Disc extends JPanel {
         setTextFont(textFont);
     }
 
+    public List<Point> getDrawnPoints() {
+        return drawnPoints;
+    }
+
+    public void setDrawnPoints(List<Point> drawnPoints) {
+        this.drawnPoints = drawnPoints;
+    }
+
+    public List<Color> getDrawPointColors() {
+        return drawPointColors;
+    }
+
+    public void setDrawPointColors(List<Color> drawPointColors) {
+        this.drawPointColors = drawPointColors;
+    }
+
     // Method to draw on the disc
     private void drawOnDisc(int x, int y) {
         Graphics2D g2d = (Graphics2D) getGraphics();
         g2d.setColor(textColor);
         g2d.fillOval(x - 5, y - 5, 10, 10); // Adjust the size as needed
         drawnPoints.add(new Point(x,y));
+        drawPointColors.add(textColor);
         g2d.dispose();
     }
 
@@ -169,8 +196,12 @@ public class Disc extends JPanel {
 
         // Redraw the drawings
         g2d.setColor(textColor);
+        // Matching indexing for drawing colors
+        int colorIndex = 0;
         for (Point point : drawnPoints) {
+            g2d.setColor(drawPointColors.get(colorIndex));
             g2d.fillOval(point.x - 5, point.y - 5, 10, 10);
+            colorIndex++;
         }
 
 
