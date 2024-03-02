@@ -28,13 +28,12 @@ public class Disc extends JPanel {
     private List<Point> drawnPoints = new ArrayList<>();
     // Store the colors of drawed points
     private List<Color> drawPointColors = new ArrayList<>();
-    // Current drawing colors
-    /*
-        missing setters and getters
-        draw point with drawing color
-        store the color of point
-        update the repaint
-    */
+    // Initial rotation angle
+    private double rotationAngle = 0;
+    // Timer for rotation animation
+    private Timer animationTimer;
+
+    private Point center;
 
 
     public Disc(Color c, String text) {
@@ -46,6 +45,7 @@ public class Disc extends JPanel {
         this.textColor = Color.RED;
         this.fontSize = 30;
         this.textFont = new Font("Arial", Font.PLAIN, fontSize);
+        this.center = new Point(0, 0); // Initialize center at (0, 0)
 
         // Add mouse listener for drawing
         addMouseListener(new MouseAdapter() {
@@ -61,6 +61,13 @@ public class Disc extends JPanel {
                 drawOnDisc(e.getX(), e.getY());
             }
         });
+        // Create a timer for animation
+        int delay = 50; // Adjust the delay as needed for smoothness of animation
+        animationTimer = new Timer(delay, e -> {
+            rotationAngle += Math.toRadians(1); // Increment the rotation angle
+            repaint(); // Trigger repaint to show updated rotation
+        });
+        animationTimer.start(); // Start the animation timer
     }
 
     public String getText() {
@@ -158,6 +165,12 @@ public class Disc extends JPanel {
         // Cast Graphics to Graphics2D because we want thicker outline
         Graphics2D g2d = (Graphics2D) g;
 
+        // Calculate the center of the disc based on the current size
+        center.x = getWidth() / 2;
+        center.y = getHeight() / 2;
+        // Apply rotation transformation around the fixed center
+        g2d.rotate(rotationAngle, center.x, center.y);
+
         g2d.setColor(Color.BLACK);
         // Set the stroke (outline)
         Stroke customStroke = new BasicStroke(2.0f);
@@ -203,6 +216,8 @@ public class Disc extends JPanel {
             g2d.fillOval(point.x - 5, point.y - 5, 10, 10);
             colorIndex++;
         }
+
+        //g2d.rotate(-rotationAngle, center.x, center.y);
 
 
     }
